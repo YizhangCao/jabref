@@ -12,14 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AuthorTest {
 
-    @ParameterizedTest
-    @CsvSource ({
-        "'O', 'O.'",
-        "'AO', 'A. O.'",
-        "'AO.', 'A. O.'",
-        "'A.O.', 'A. O.'",
-        "'A-O', 'A.-O.'"
-    })
+  @ParameterizedTest
+  @CsvSource({
+      "AO, 'A. O.'",
+      "AO., 'A. O.'",
+      "A.O., 'A. O.'",
+      "A-O, 'A.-O.'"
+  })
     void addDotIfAbbreviationAddsDot(String input, String expected) {
       assertEquals(expected, Author.addDotIfAbbreviation(input));
     }
