@@ -128,7 +128,7 @@ public class AuthorListTest {
       "'', '', true, false",
       "'', '', false, false",
 
-      //One author
+      // One author
       "'John Smith', 'John Smith', false, false",
       "'John Smith', 'J. Smith', true, false",
       "'John Smith and Black Brown, Peter', 'J. Smith and P. Black Brown' true, false",
