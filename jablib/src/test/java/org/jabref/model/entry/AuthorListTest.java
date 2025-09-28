@@ -519,15 +519,22 @@ public class AuthorListTest {
 
   @ParameterizedTest
   @CsvSource({
-      "'John Smith', 'Smith, John', false",
-      "'John Smith', 'Smith, J.', true",
-      "'John Smith and Black Brown, Peter', 'Smith, John and Black Brown, Peter', false",
-      "'John Smith and Black Brown, Peter', 'Smith, J. and Black Brown, P.', true",
-      "'John Peter von Neumann', 'von Neumann, J. P.', true"
+      // Oxford comma = false
+      "'', '', false",
+      "'John Smith', 'Smith', false",
+      "'Smith, Jr, John', 'Smith', false",
+      "'John von Neumann and John Smith and Black Brown, Peter', 'von Neumann, Smith and Black Brown', false",
+
+      // Oxford comma = true
+      "'', '', true",
+      "'John Smith', 'Smith', true",
+      "'Smith, Jr, John', 'Smith', true",
+      "'John von Neumann and John Smith and Black Brown, Peter', 'von Neumann, Smith, and Black Brown', true"
   })
   void fixAuthorLastNameOnlyCommas(String input, String expected, boolean oxford) {
     assertEquals(expected, AuthorList.fixAuthorLastNameOnlyCommas(input, oxford));
   }
+
 
   @SuppressWarnings("checkstyle:EmptyLineSeparator")
   @Test
