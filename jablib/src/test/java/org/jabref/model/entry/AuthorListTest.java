@@ -534,6 +534,7 @@ public class AuthorListTest {
   void fixAuthorLastNameOnlyCommas(String input, String expected, boolean oxford) {
     assertEquals(expected, AuthorList.fixAuthorLastNameOnlyCommas(input, oxford));
   }
+
   @SuppressWarnings("checkstyle:EmptyLineSeparator")
   @Test
     void getAsLastNamesLatexFreeUnicodeOneAuthorNameFromLatex() {
