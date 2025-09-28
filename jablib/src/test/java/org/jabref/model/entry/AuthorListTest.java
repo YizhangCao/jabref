@@ -142,7 +142,7 @@ public class AuthorListTest {
       "'John Smith and Black Brown, Peter', 'J. Smith and P. Black Brown', true, true",
       "'John Peter von Neumann', 'J. P. von Neumann', true, true"
   })
-  void fixAuthorFirstNameFirstCommas_param(String input, String expected, boolean abbreviate, boolean oxford) {
+  void fixAuthorFirstNameFirstCommas(String input, String expected, boolean abbreviate, boolean oxford) {
     assertEquals(expected, AuthorList.fixAuthorFirstNameFirstCommas(input, abbreviate, oxford));
   }
 
@@ -255,7 +255,7 @@ public class AuthorListTest {
   @CsvSource({
       "John Smith", "John Smith"
   })
-  void fixAuthorFirstNameFirst_param(String input, String expected) {
+  void fixAuthorFirstNameFirst(String input, String expected) {
     assertEquals(expected, AuthorList.fixAuthorFirstNameFirst(input));
   }
 
@@ -267,7 +267,7 @@ public class AuthorListTest {
       "'John Smith and Black Brown, Peter', 'Smith, J. and Black Brown, P.', true",
       "'John Peter von Neumann', 'von Neumann, J. P.', true"
   })
-  void fixAuthorLastNameFirstCommas_noOxford(String input, String expected, boolean abbreviate) {
+  void fixAuthorLastNameFirstCommasnoOxford(String input, String expected, boolean abbreviate) {
     assertEquals(expected, AuthorList.fixAuthorLastNameFirstCommas(input, abbreviate, false));
   }
 
@@ -279,7 +279,7 @@ public class AuthorListTest {
       "'John Smith and Black Brown, Peter', 'Smith, J. and Black Brown, P.', true",
       "'John Peter von Neumann', 'von Neumann, J. P.', true"
   })
-  void fixAuthorLastNameFirstCommas_oxford(String input, String expected, boolean abbreviate) {
+  void fixAuthorLastNameFirstCommasoxford(String input, String expected, boolean abbreviate) {
     assertEquals(expected, AuthorList.fixAuthorLastNameFirstCommas(input, abbreviate, true));
   }
 
@@ -533,7 +533,7 @@ public class AuthorListTest {
       "'John Smith and Black Brown, Peter', 'Smith, J. and Black Brown, P.', true",
       "'John Peter von Neumann', 'von Neumann, J. P.', true"
   })
-  void fixAuthorLastNameOnlyCommas_param(String input, String expected, boolean oxford) {
+  void fixAuthorLastNameOnlyCommas(String input, String expected, boolean oxford) {
     assertEquals(expected, AuthorList.fixAuthorLastNameOnlyCommas(input, oxford));
   }
 
