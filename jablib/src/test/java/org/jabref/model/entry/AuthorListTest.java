@@ -124,10 +124,19 @@ public class AuthorListTest {
 
   @ParameterizedTest
   @CsvSource({
+      // No authors
+      "'', '', true, false",
+      "'', '', false, false",
+
+      //One author
       "'John Smith', 'John Smith', false, false",
       "'John Smith', 'J. Smith', true, false",
       "'John Smith and Black Brown, Peter', 'J. Smith and P. Black Brown' true, false",
       "'John Peter von Neumann', 'J. P. von Neumann', true, false",
+
+      // Oxford comma = true
+      "'', '', true, true",
+      "'', '', false, true",
       "'John Smith', 'John Smith', false, true",
       "'John Smith', 'J. Smith', true, true",
       "'John Smith and Black Brown, Peter', 'J. Smith and P. Black Brown', true, true",
