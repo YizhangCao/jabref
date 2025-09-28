@@ -252,6 +252,9 @@ public class AuthorListTest {
         assertEquals("Łukasz Michał",
                 ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsFirstLastNames(false, false));
     }
+
+
+
   @ParameterizedTest
   @CsvSource({
       "'John Smith', 'Smith, John', false",
