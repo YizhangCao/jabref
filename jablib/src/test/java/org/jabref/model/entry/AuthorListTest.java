@@ -50,11 +50,29 @@ public class AuthorListTest {
 
   @ParameterizedTest
   @CsvSource({
+      // No authors
+      "'', ''",
+
+      // One author
+      "'John Smith', 'John Smith'",
+      "'Peter Brown', 'Peter Brown'"
+
+  })
+  void fixAuthorFirstNameFirst(String input, String expected) {
+    assertEquals(expected, AuthorList.fixAuthorFirstNameFirst(input));
+  }
+
+
+
+  @ParameterizedTest
+  @CsvSource({
       "'', ''",
       "'John Smith', 'Smith'",
       "'John Smith and Black Brown, Peter', 'Smith and Black Brown'",
       "'John von Neumann and John Smith and Black Brown, Peter', 'von Neumann et al.'"
   })
+
+
   void fixAuthorNatbib(String input, String expected) {
     assertEquals(expected, AuthorList.fixAuthorNatbib(input));
   }
@@ -250,15 +268,6 @@ public class AuthorListTest {
         assertEquals("Łukasz Michał",
                 ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsFirstLastNames(false, false));
     }
-
-  @ParameterizedTest
-  @CsvSource({
-      "John Smith", "John Smith"
-  })
-  void fixAuthorFirstNameFirst(String input, String expected) {
-    assertEquals(expected, AuthorList.fixAuthorFirstNameFirst(input));
-  }
-
   @ParameterizedTest
   @CsvSource({
       "'John Smith', 'Smith, John', false",
