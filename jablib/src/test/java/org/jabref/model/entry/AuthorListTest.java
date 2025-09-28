@@ -55,8 +55,6 @@ public class AuthorListTest {
       "'John Smith and Black Brown, Peter', 'Smith and Black Brown'",
       "'John von Neumann and John Smith and Black Brown, Peter', 'von Neumann et al.'"
   })
-
-
   void fixAuthorNatbib(String input, String expected) {
     assertEquals(expected, AuthorList.fixAuthorNatbib(input));
   }
@@ -252,7 +250,6 @@ public class AuthorListTest {
         assertEquals("Łukasz Michał",
                 ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsFirstLastNames(false, false));
     }
-
 
 
   @ParameterizedTest
