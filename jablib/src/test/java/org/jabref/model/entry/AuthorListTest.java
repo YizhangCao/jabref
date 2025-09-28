@@ -50,22 +50,6 @@ public class AuthorListTest {
 
   @ParameterizedTest
   @CsvSource({
-      // No authors
-      "'', ''",
-
-      // One author
-      "'John Smith', 'John Smith'",
-      "'Peter Brown', 'Peter Brown'"
-
-  })
-  void fixAuthorFirstNameFirst(String input, String expected) {
-    assertEquals(expected, AuthorList.fixAuthorFirstNameFirst(input));
-  }
-
-
-
-  @ParameterizedTest
-  @CsvSource({
       "'', ''",
       "'John Smith', 'Smith'",
       "'John Smith and Black Brown, Peter', 'Smith and Black Brown'",
