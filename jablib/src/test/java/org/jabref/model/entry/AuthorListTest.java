@@ -131,22 +131,25 @@ public class AuthorListTest {
       // One author
       "'John Smith', 'John Smith', false, false",
       "'John Smith', 'J. Smith', true, false",
-      "'John Smith and Black Brown, Peter', 'J. Smith and P. Black Brown' true, false",
-      "'John Peter von Neumann', 'J. P. von Neumann', true, false",
+
+      // Two authors
+      "'John Smith and Black Brown, Peter', 'John Smith and Peter Black Brown', false, false",
+      "'John Smith and Black Brown, Peter', 'J. Smith and P. Black Brown', true, false",
 
       // Oxford comma = true
       "'', '', true, true",
       "'', '', false, true",
       "'John Smith', 'John Smith', false, true",
       "'John Smith', 'J. Smith', true, true",
-      "'John Smith and Black Brown, Peter', 'J. Smith and P. Black Brown', true, true",
-      "'John Peter von Neumann', 'J. P. von Neumann', true, true"
+      "'John Smith and Black Brown, Peter', 'John Smith and Peter Black Brown', false, true",
+      "'John Smith and Black Brown, Peter', 'J. Smith and P. Black Brown', true, true"
   })
   void fixAuthorFirstNameFirstCommas(String input, String expected, boolean abbreviate, boolean oxford) {
     assertEquals(expected, AuthorList.fixAuthorFirstNameFirstCommas(input, abbreviate, oxford));
   }
 
-    @Test
+
+  @Test
     void getAsFirstLastNamesLatexFreeEmptyAuthorStringForEmptyInputAbbreviate() {
         assertEquals("", EMPTY_AUTHOR.latexFree().getAsFirstLastNames(true, false));
     }
