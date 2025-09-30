@@ -18,8 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Other parsing tests are available in {@code org.jabref.logic.importer.AuthorListParserTest}
+ * Other parsing tests are available in
+ * {@link <a href="https://github.com/JabRef/jabref/blob/main/jabref-logic/src/test/java/org/jabref/logic/importer/AuthorListParserTest.java">AuthorListParserTest</a>}.
+ * See also {@link org.jabref.logic.importer.AuthorListParser AuthorListParser}.
  */
+
 public class AuthorListTest {
 
     /*
