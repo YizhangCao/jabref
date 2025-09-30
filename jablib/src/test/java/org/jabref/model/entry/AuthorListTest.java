@@ -148,7 +148,6 @@ public class AuthorListTest {
     assertEquals(expected, AuthorList.fixAuthorFirstNameFirstCommas(input, abbreviate, oxford));
   }
 
-
   @Test
     void getAsFirstLastNamesLatexFreeEmptyAuthorStringForEmptyInputAbbreviate() {
         assertEquals("", EMPTY_AUTHOR.latexFree().getAsFirstLastNames(true, false));
