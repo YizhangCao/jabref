@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.jabref.model.entry.types.BiblatexApaEntryType;
 
-import io.github.adr.linked.ADR;
+import io.github.adr.embedded.ADR;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

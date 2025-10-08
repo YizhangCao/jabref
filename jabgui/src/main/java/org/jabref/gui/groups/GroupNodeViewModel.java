@@ -57,7 +57,7 @@ import org.jabref.model.strings.StringUtil;
 import com.google.common.eventbus.Subscribe;
 import com.tobiasdiez.easybind.EasyBind;
 import com.tobiasdiez.easybind.EasyObservableList;
-import io.github.adr.linked.ADR;
+import io.github.adr.embedded.ADR;
 
 public class GroupNodeViewModel {
 

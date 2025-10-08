@@ -13,7 +13,7 @@ import org.jabref.logic.pseudonymization.PseudonymizationResultCsvWriter;
 import org.jabref.logic.util.io.FileUtil;
 import org.jabref.model.database.BibDatabaseContext;
 
-import io.github.adr.linked.ADR;
+import io.github.adr.embedded.ADR;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;

@@ -3801,7 +3801,7 @@
         <property name="cdx:maven:package:test">false</property>
       </properties>
     </component>
-    <component type="library" bom-ref="pkg:maven/io.github.adr/e-adr@2.0.0-SNAPSHOT?type=jar">
+    <component type="library" bom-ref="pkg:maven/io.github.adr/e-adr@1.0.0?type=jar">
       <group>io.github.adr</group>
       <name>e-adr</name>
       <version>2.0.0-SNAPSHOT</version>

@@ -92,7 +92,7 @@ dependencies {
 
     implementation("com.vladsch.flexmark:flexmark-html2md-converter")
 
-    implementation("io.github.adr:e-adr")
+    implementation("io.github.adr:e-adr:1.0.0")
 
     implementation("org.libreoffice:unoloader")
     implementation("org.libreoffice:libreoffice")

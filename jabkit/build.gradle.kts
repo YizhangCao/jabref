@@ -45,7 +45,7 @@ dependencies {
 
     implementation("org.apache.lucene:lucene-queryparser")
 
-    implementation("io.github.adr:e-adr")
+    implementation("io.github.adr:e-adr:1.0.0")
 
     testImplementation(project(":test-support"))
     testImplementation("org.mockito:mockito-core")

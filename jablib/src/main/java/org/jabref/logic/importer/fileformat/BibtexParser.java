@@ -61,7 +61,7 @@ import com.dd.plist.BinaryPropertyListParser;
 import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.NSString;
-import io.github.adr.linked.ADR;
+import io.github.adr.embedded.ADR;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;

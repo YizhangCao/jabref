@@ -10,7 +10,7 @@ import org.jabref.model.entry.BibEntry;
 import org.jabref.model.search.SearchFlags;
 import org.jabref.model.search.query.SearchQuery;
 
-import io.github.adr.linked.ADR;
+import io.github.adr.embedded.ADR;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
