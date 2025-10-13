@@ -1,9 +1,10 @@
-package org.jabref.model.entry;
+﻿package org.jabref.model.entry;
 
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -11,13 +12,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AuthorTest {
 
-    @Test
-    void addDotIfAbbreviationAddDot() {
-        assertEquals("O.", Author.addDotIfAbbreviation("O"));
-        assertEquals("A. O.", Author.addDotIfAbbreviation("AO"));
-        assertEquals("A. O.", Author.addDotIfAbbreviation("AO."));
-        assertEquals("A. O.", Author.addDotIfAbbreviation("A.O."));
-        assertEquals("A.-O.", Author.addDotIfAbbreviation("A-O"));
+  @ParameterizedTest
+  @CsvSource({
+      "AO, 'A. O.'",
+      "AO., 'A. O.'",
+      "A.O., 'A. O.'",
+      "A-O, 'A.-O.'"
+  })
+    void addDotIfAbbreviationAddsDot(String input, String expected) {
+      assertEquals(expected, Author.addDotIfAbbreviation(input));
     }
 
     @Test
