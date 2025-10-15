@@ -1,4 +1,4 @@
-﻿package org.jabref.model.entry;
+package org.jabref.model.entry;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
