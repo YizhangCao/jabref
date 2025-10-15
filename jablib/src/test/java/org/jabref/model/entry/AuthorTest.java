@@ -48,19 +48,13 @@ class AuthorTest {
 
   @ParameterizedTest
   @NullAndEmptySource
-  void addDotIfAbbreviationIfNameIsNullOrEmpty(String input) {
-    assertEquals(input, Author.addDotIfAbbreviation(input));
-  }
-
-  @ParameterizedTest
-  @ValueSource(strings = {"asdf", "a"})
-  void addDotIfAbbreviationLowerCaseLetters(String input) {
-    assertEquals(input, Author.addDotIfAbbreviation(input));
-  }
-
-  @ParameterizedTest
-  @ValueSource(strings = {"1", "1 23"})
-  void addDotIfAbbreviationIfStartsWithNumber(String input) {
+  @ValueSource(strings = {
+      // Lower-case letters
+      "asdf", "a",
+      // Numbers
+      "1", "1 23"
+  })
+  void addDotIfAbbreviation(String input) {
     assertEquals(input, Author.addDotIfAbbreviation(input));
   }
 
