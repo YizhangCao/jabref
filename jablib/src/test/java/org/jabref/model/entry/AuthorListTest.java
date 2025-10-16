@@ -66,18 +66,26 @@ public class AuthorListTest {
 
   @ParameterizedTest
   @CsvSource(value = {
+      // LaTeX-free empty author string
       "EMPTY_AUTHOR|",
+      // LaTeX-free Unicode one author name from LaTeX
       "ONE_AUTHOR_WITH_LATEX|al-Khwārizmī",
+      // LaTeX-free Unicode two author names from LaTeX
       "TWO_AUTHORS_WITH_LATEX|al-Khwārizmī and Böhm",
+      // LaTeX-free Unicode author et al from LaTeX
       "THREE_AUTHORS_WITH_LATEX|al-Khwārizmī et al.",
+      // LaTeX-free Unicode one institution name from LaTeX
       "ONE_INSTITUTION_WITH_LATEX|The Banū Mūsā brothers",
+      // LaTeX-free Unicode two institution names from LaTeX
       "TWO_INSTITUTIONS_WITH_LATEX|The Banū Mūsā brothers and The Banū Mūsā brothers",
+      // LaTeX-free Unicode mixed authors from LaTeX
       "MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX|The Banū Mūsā brothers and Böhm",
+      // LaTeX-free one institution with parenthesis at start
       "ONE_INSTITUTION_WITH_STARTING_PARANTHESIS|Łukasz Michał"
   }, delimiter = '|')
   void getAsNatbibLatexFree(String authorListName, String expected) {
     AuthorList authorList = getAuthorListByName(authorListName);
-    assertEquals(expected == null ? "" : expected, authorList.latexFree().getAsNatbib());
+    assertEquals(expected, authorList.latexFree().getAsNatbib());
   }
 
   @Test
@@ -123,110 +131,48 @@ public class AuthorListTest {
     assertEquals(expected, AuthorList.fixAuthorFirstNameFirstCommas(input, abbreviate, oxford));
   }
 
-  @Test
-  void getAsFirstLastNamesLatexFreeEmptyAuthorStringForEmptyInputAbbreviate() {
-    assertEquals("", EMPTY_AUTHOR.latexFree().getAsFirstLastNames(true, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeOneAuthorNameFromLatexAbbreviate() {
-    assertEquals("M. al-Khwārizmī",
-        ONE_AUTHOR_WITH_LATEX.latexFree().getAsFirstLastNames(true, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeTwoAuthorNamesFromLatexAbbreviate() {
-    assertEquals("M. al-Khwārizmī and C. Böhm",
-        TWO_AUTHORS_WITH_LATEX.latexFree().getAsFirstLastNames(true, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeTwoAuthorNamesFromLatexAbbreviateAndOxfordComma() {
-    assertEquals("M. al-Khwārizmī and C. Böhm",
-        TWO_AUTHORS_WITH_LATEX.latexFree().getAsFirstLastNames(true, true));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeThreeUnicodeAuthorsFromLatexAbbreviate() {
-    assertEquals("M. al-Khwārizmī, C. Böhm and K. Gödel",
-        THREE_AUTHORS_WITH_LATEX.latexFree().getAsFirstLastNames(true, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeThreeUnicodeAuthorsFromLatexAbbreviateAndOxfordComma() {
-    assertEquals("M. al-Khwārizmī, C. Böhm, and K. Gödel",
-        THREE_AUTHORS_WITH_LATEX.latexFree().getAsFirstLastNames(true, true));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeOneInsitutionNameFromLatexAbbreviate() {
-    assertEquals("The Banū Mūsā brothers",
-        ONE_INSTITUTION_WITH_LATEX.latexFree().getAsFirstLastNames(true, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeTwoInsitutionNameFromLatexAbbreviate() {
-    assertEquals("The Banū Mūsā brothers and The Banū Mūsā brothers",
-        TWO_INSTITUTIONS_WITH_LATEX.latexFree().getAsFirstLastNames(true, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeMixedAuthorsFromLatexAbbreviate() {
-    assertEquals("The Banū Mūsā brothers and C. Böhm",
-        MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX.latexFree().getAsFirstLastNames(true, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeOneInstitutionWithParanthesisAtStartAbbreviate() {
-    assertEquals("Łukasz Michał",
-        ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsFirstLastNames(true, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeEmptyAuthorStringForEmptyInput() {
-    assertEquals("", EMPTY_AUTHOR.latexFree().getAsFirstLastNames(false, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeOneAuthorNameFromLatex() {
-    assertEquals("Muḥammad al-Khwārizmī",
-        ONE_AUTHOR_WITH_LATEX.latexFree().getAsFirstLastNames(false, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeTwoAuthorNamesFromLatex() {
-    assertEquals("Muḥammad al-Khwārizmī and Corrado Böhm",
-        TWO_AUTHORS_WITH_LATEX.latexFree().getAsFirstLastNames(false, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeThreeUnicodeAuthorsFromLatex() {
-    assertEquals("Muḥammad al-Khwārizmī, Corrado Böhm and Kurt Gödel",
-        THREE_AUTHORS_WITH_LATEX.latexFree().getAsFirstLastNames(false, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeOneInsitutionNameFromLatex() {
-    assertEquals("The Banū Mūsā brothers",
-        ONE_INSTITUTION_WITH_LATEX.latexFree().getAsFirstLastNames(false, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeTwoInsitutionNameFromLatex() {
-    assertEquals("The Banū Mūsā brothers and The Banū Mūsā brothers",
-        TWO_INSTITUTIONS_WITH_LATEX.latexFree().getAsFirstLastNames(false, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeUnicodeMixedAuthorsFromLatex() {
-    assertEquals("The Banū Mūsā brothers and Corrado Böhm",
-        MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX.latexFree().getAsFirstLastNames(false, false));
-  }
-
-  @Test
-  void getAsFirstLastNamesLatexFreeOneInstitutionWithParanthesisAtStart() {
-    assertEquals("Łukasz Michał",
-        ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsFirstLastNames(false, false));
+  @ParameterizedTest
+  @CsvSource(value = {
+      // Empty author string for empty input abbreviate
+      "EMPTY_AUTHOR|true|false|",
+      // Unicode one author name from LaTeX abbreviate
+      "ONE_AUTHOR_WITH_LATEX|true|false|M. al-Khwārizmī",
+      // Unicode two author names from LaTeX abbreviate
+      "TWO_AUTHORS_WITH_LATEX|true|false|M. al-Khwārizmī and C. Böhm",
+      // Unicode two author names from LaTeX abbreviate and Oxford comma
+      "TWO_AUTHORS_WITH_LATEX|true|true|M. al-Khwārizmī and C. Böhm",
+      // Three Unicode authors from LaTeX abbreviate
+      "THREE_AUTHORS_WITH_LATEX|true|false|M. al-Khwārizmī, C. Böhm and K. Gödel",
+      // Three Unicode authors from LaTeX abbreviate and Oxford comma
+      "THREE_AUTHORS_WITH_LATEX|true|true|M. al-Khwārizmī, C. Böhm, and K. Gödel",
+      // Unicode one institution name from LaTeX abbreviate
+      "ONE_INSTITUTION_WITH_LATEX|true|false|The Banū Mūsā brothers",
+      // Unicode two institution names from LaTeX abbreviate
+      "TWO_INSTITUTIONS_WITH_LATEX|true|false|The Banū Mūsā brothers and The Banū Mūsā brothers",
+      // Unicode mixed authors from LaTeX abbreviate
+      "MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX|true|false|The Banū Mūsā brothers and C. Böhm",
+      // One institution with parenthesis at start abbreviate
+      "ONE_INSTITUTION_WITH_STARTING_PARANTHESIS|true|false|Łukasz Michał",
+      // Empty author string for empty input
+      "EMPTY_AUTHOR|false|false|",
+      // Unicode one author name from LaTeX
+      "ONE_AUTHOR_WITH_LATEX|false|false|Muḥammad al-Khwārizmī",
+      // Unicode two author names from LaTeX
+      "TWO_AUTHORS_WITH_LATEX|false|false|Muḥammad al-Khwārizmī and Corrado Böhm",
+      // Three Unicode authors from LaTeX
+      "THREE_AUTHORS_WITH_LATEX|false|false|Muḥammad al-Khwārizmī, Corrado Böhm and Kurt Gödel",
+      // Unicode one institution name from LaTeX
+      "ONE_INSTITUTION_WITH_LATEX|false|false|The Banū Mūsā brothers",
+      // Unicode two institution names from LaTeX
+      "TWO_INSTITUTIONS_WITH_LATEX|false|false|The Banū Mūsā brothers and The Banū Mūsā brothers",
+      // Unicode mixed authors from LaTeX
+      "MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX|false|false|The Banū Mūsā brothers and Corrado Böhm",
+      // One institution with parenthesis at start
+      "ONE_INSTITUTION_WITH_STARTING_PARANTHESIS|false|false|Łukasz Michał"
+  }, delimiter = '|')
+  void getAsFirstLastNamesLatexFree(String authorListName, boolean abbreviate, boolean oxford, String expected) {
+    AuthorList authorList = getAuthorListByName(authorListName);
+    assertEquals(expected, authorList.latexFree().getAsFirstLastNames(abbreviate, oxford));
   }
 
   @ParameterizedTest
@@ -253,192 +199,76 @@ public class AuthorListTest {
     assertEquals(expected, AuthorList.fixAuthorLastNameFirstCommas(input, abbreviate, true));
   }
 
-  @Test
-  void getAsLastFirstNamesLatexFreeEmptyAuthorStringForEmptyInputAbbr() {
-    assertEquals("", EMPTY_AUTHOR.latexFree().getAsLastFirstNames(true, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeOneAuthorNameFromLatexAbbr() {
-    assertEquals("al-Khwārizmī, M.",
-        ONE_AUTHOR_WITH_LATEX.latexFree().getAsLastFirstNames(true, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeTwoAuthorNamesFromLatexAbbr() {
-    assertEquals("al-Khwārizmī, M. and Böhm, C.",
-        TWO_AUTHORS_WITH_LATEX.latexFree().getAsLastFirstNames(true, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeThreeUnicodeAuthorsFromLatexAbbr() {
-    assertEquals("al-Khwārizmī, M., Böhm, C. and Gödel, K.",
-        THREE_AUTHORS_WITH_LATEX.latexFree().getAsLastFirstNames(true, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeOneInsitutionNameFromLatexAbbr() {
-    assertEquals("The Banū Mūsā brothers",
-        ONE_INSTITUTION_WITH_LATEX.latexFree().getAsLastFirstNames(true, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeTwoInsitutionNameFromLatexAbbr() {
-    assertEquals("The Banū Mūsā brothers and The Banū Mūsā brothers",
-        TWO_INSTITUTIONS_WITH_LATEX.latexFree().getAsLastFirstNames(true, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeMixedAuthorsFromLatexAbbr() {
-    assertEquals("The Banū Mūsā brothers and Böhm, C.",
-        MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX.latexFree().getAsLastFirstNames(true, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeOneInstitutionWithParanthesisAtStartAbbr() {
-    assertEquals("Łukasz Michał",
-        ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsLastFirstNames(true, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeEmptyAuthorStringForEmptyInput() {
-    assertEquals("", EMPTY_AUTHOR.latexFree().getAsLastFirstNames(false, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeOneAuthorNameFromLatex() {
-    assertEquals("al-Khwārizmī, Muḥammad",
-        ONE_AUTHOR_WITH_LATEX.latexFree().getAsLastFirstNames(false, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeTwoAuthorNamesFromLatex() {
-    assertEquals("al-Khwārizmī, Muḥammad and Böhm, Corrado",
-        TWO_AUTHORS_WITH_LATEX.latexFree().getAsLastFirstNames(false, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeThreeUnicodeAuthorsFromLatex() {
-    assertEquals("al-Khwārizmī, Muḥammad, Böhm, Corrado and Gödel, Kurt",
-        THREE_AUTHORS_WITH_LATEX.latexFree().getAsLastFirstNames(false, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeOneInsitutionNameFromLatex() {
-    assertEquals("The Banū Mūsā brothers",
-        ONE_INSTITUTION_WITH_LATEX.latexFree().getAsLastFirstNames(false, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeTwoInsitutionNameFromLatex() {
-    assertEquals("The Banū Mūsā brothers and The Banū Mūsā brothers",
-        TWO_INSTITUTIONS_WITH_LATEX.latexFree().getAsLastFirstNames(false, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeMixedAuthorsFromLatex() {
-    assertEquals("The Banū Mūsā brothers and Böhm, Corrado",
-        MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX.latexFree().getAsLastFirstNames(false, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeOneInstitutionWithParanthesisAtStart() {
-    assertEquals("Łukasz Michał",
-        ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsLastFirstNames(false, false));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeEmptyAuthorStringForEmptyInputAbbrOxfordComma() {
-    assertEquals("", EMPTY_AUTHOR.latexFree().getAsLastFirstNames(true, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeOneAuthorNameFromLatexAbbrOxfordComma() {
-    assertEquals("al-Khwārizmī, M.",
-        ONE_AUTHOR_WITH_LATEX.latexFree().getAsLastFirstNames(true, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeTwoAuthorNamesFromLatexAbbrOxfordComma() {
-    assertEquals("al-Khwārizmī, M. and Böhm, C.",
-        TWO_AUTHORS_WITH_LATEX.latexFree().getAsLastFirstNames(true, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeThreeUnicodeAuthorsFromLatexAbbrOxfordComma() {
-    assertEquals("al-Khwārizmī, M., Böhm, C., and Gödel, K.",
-        THREE_AUTHORS_WITH_LATEX.latexFree().getAsLastFirstNames(true, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeOneInsitutionNameFromLatexAbbrOxfordComma() {
-    assertEquals("The Banū Mūsā brothers",
-        ONE_INSTITUTION_WITH_LATEX.latexFree().getAsLastFirstNames(true, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeTwoInsitutionNameFromLatexAbbrOxfordComma() {
-    assertEquals("The Banū Mūsā brothers and The Banū Mūsā brothers",
-        TWO_INSTITUTIONS_WITH_LATEX.latexFree().getAsLastFirstNames(true, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeMixedAuthorsFromLatexAbbrOxfordComma() {
-    assertEquals("The Banū Mūsā brothers and Böhm, C.",
-        MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX.latexFree().getAsLastFirstNames(true, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeOneInstitutionWithParanthesisAtStartAbbrOxfordComma() {
-    assertEquals("Łukasz Michał",
-        ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsLastFirstNames(true, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeEmptyAuthorStringForEmptyInputOxfordComma() {
-    assertEquals("", EMPTY_AUTHOR.latexFree().getAsLastFirstNames(false, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeOneAuthorNameFromLatexOxfordComma() {
-    assertEquals("al-Khwārizmī, Muḥammad",
-        ONE_AUTHOR_WITH_LATEX.latexFree().getAsLastFirstNames(false, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeTwoAuthorNamesFromLatexOxfordComma() {
-    assertEquals("al-Khwārizmī, Muḥammad and Böhm, Corrado",
-        TWO_AUTHORS_WITH_LATEX.latexFree().getAsLastFirstNames(false, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeThreeUnicodeAuthorsFromLatexOxfordComma() {
-    assertEquals("al-Khwārizmī, Muḥammad, Böhm, Corrado, and Gödel, Kurt",
-        THREE_AUTHORS_WITH_LATEX.latexFree().getAsLastFirstNames(false, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeOneInsitutionNameFromLatexOxfordComma() {
-    assertEquals("The Banū Mūsā brothers",
-        ONE_INSTITUTION_WITH_LATEX.latexFree().getAsLastFirstNames(false, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeTwoInsitutionNameFromLatexOxfordComma() {
-    assertEquals("The Banū Mūsā brothers and The Banū Mūsā brothers",
-        TWO_INSTITUTIONS_WITH_LATEX.latexFree().getAsLastFirstNames(false, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeUnicodeMixedAuthorsFromLatexOxfordComma() {
-    assertEquals("The Banū Mūsā brothers and Böhm, Corrado",
-        MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX.latexFree().getAsLastFirstNames(false, true));
-  }
-
-  @Test
-  void getAsLastFirstNamesLatexFreeOneInstitutionWithParanthesisAtStartOxfordComma() {
-    assertEquals("Łukasz Michał",
-        ONE_INSTITUTION_WITH_STARTING_PARANTHESIS.latexFree().getAsLastFirstNames(false, true));
+  @ParameterizedTest
+  @CsvSource(value = {
+      // Empty author string for empty input abbreviate
+      "EMPTY_AUTHOR|true|false|",
+      // Unicode one author name from LaTeX abbreviate
+      "ONE_AUTHOR_WITH_LATEX|true|false|al-Khwārizmī, M.",
+      // Unicode two author names from LaTeX abbreviate
+      "TWO_AUTHORS_WITH_LATEX|true|false|al-Khwārizmī, M. and Böhm, C.",
+      // Three Unicode authors from LaTeX abbreviate
+      "THREE_AUTHORS_WITH_LATEX|true|false|al-Khwārizmī, M., Böhm, C. and Gödel, K.",
+      // Unicode one institution name from LaTeX abbreviate
+      "ONE_INSTITUTION_WITH_LATEX|true|false|The Banū Mūsā brothers",
+      // Unicode two institution names from LaTeX abbreviate
+      "TWO_INSTITUTIONS_WITH_LATEX|true|false|The Banū Mūsā brothers and The Banū Mūsā brothers",
+      // Unicode mixed authors from LaTeX abbreviate
+      "MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX|true|false|The Banū Mūsā brothers and Böhm, C.",
+      // One institution with parenthesis at start abbreviate
+      "ONE_INSTITUTION_WITH_STARTING_PARANTHESIS|true|false|Łukasz Michał",
+      // Empty author string for empty input
+      "EMPTY_AUTHOR|false|false|",
+      // Unicode one author name from LaTeX
+      "ONE_AUTHOR_WITH_LATEX|false|false|al-Khwārizmī, Muḥammad",
+      // Unicode two author names from LaTeX
+      "TWO_AUTHORS_WITH_LATEX|false|false|al-Khwārizmī, Muḥammad and Böhm, Corrado",
+      // Three Unicode authors from LaTeX
+      "THREE_AUTHORS_WITH_LATEX|false|false|al-Khwārizmī, Muḥammad, Böhm, Corrado and Gödel, Kurt",
+      // Unicode one institution name from LaTeX
+      "ONE_INSTITUTION_WITH_LATEX|false|false|The Banū Mūsā brothers",
+      // Unicode two institution names from LaTeX
+      "TWO_INSTITUTIONS_WITH_LATEX|false|false|The Banū Mūsā brothers and The Banū Mūsā brothers",
+      // Unicode mixed authors from LaTeX
+      "MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX|false|false|The Banū Mūsā brothers and Böhm, Corrado",
+      // One institution with parenthesis at start
+      "ONE_INSTITUTION_WITH_STARTING_PARANTHESIS|false|false|Łukasz Michał",
+      // Empty author string for empty input abbreviate Oxford comma
+      "EMPTY_AUTHOR|true|true|",
+      // Unicode one author name from LaTeX abbreviate Oxford comma
+      "ONE_AUTHOR_WITH_LATEX|true|true|al-Khwārizmī, M.",
+      // Unicode two author names from LaTeX abbreviate Oxford comma
+      "TWO_AUTHORS_WITH_LATEX|true|true|al-Khwārizmī, M. and Böhm, C.",
+      // Three Unicode authors from LaTeX abbreviate Oxford comma
+      "THREE_AUTHORS_WITH_LATEX|true|true|al-Khwārizmī, M., Böhm, C., and Gödel, K.",
+      // Unicode one institution name from LaTeX abbreviate Oxford comma
+      "ONE_INSTITUTION_WITH_LATEX|true|true|The Banū Mūsā brothers",
+      // Unicode two institution names from LaTeX abbreviate Oxford comma
+      "TWO_INSTITUTIONS_WITH_LATEX|true|true|The Banū Mūsā brothers and The Banū Mūsā brothers",
+      // Unicode mixed authors from LaTeX abbreviate Oxford comma
+      "MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX|true|true|The Banū Mūsā brothers and Böhm, C.",
+      // One institution with parenthesis at start abbreviate Oxford comma
+      "ONE_INSTITUTION_WITH_STARTING_PARANTHESIS|true|true|Łukasz Michał",
+      // Empty author string for empty input Oxford comma
+      "EMPTY_AUTHOR|false|true|",
+      // Unicode one author name from LaTeX Oxford comma
+      "ONE_AUTHOR_WITH_LATEX|false|true|al-Khwārizmī, Muḥammad",
+      // Unicode two author names from LaTeX Oxford comma
+      "TWO_AUTHORS_WITH_LATEX|false|true|al-Khwārizmī, Muḥammad and Böhm, Corrado",
+      // Three Unicode authors from LaTeX Oxford comma
+      "THREE_AUTHORS_WITH_LATEX|false|true|al-Khwārizmī, Muḥammad, Böhm, Corrado, and Gödel, Kurt",
+      // Unicode one institution name from LaTeX Oxford comma
+      "ONE_INSTITUTION_WITH_LATEX|false|true|The Banū Mūsā brothers",
+      // Unicode two institution names from LaTeX Oxford comma
+      "TWO_INSTITUTIONS_WITH_LATEX|false|true|The Banū Mūsā brothers and The Banū Mūsā brothers",
+      // Unicode mixed authors from LaTeX Oxford comma
+      "MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX|false|true|The Banū Mūsā brothers and Böhm, Corrado",
+      // One institution with parenthesis at start Oxford comma
+      "ONE_INSTITUTION_WITH_STARTING_PARANTHESIS|false|true|Łukasz Michał"
+  }, delimiter = '|')
+  void getAsLastFirstNamesLatexFree(String authorListName, boolean abbreviate, boolean oxford, String expected) {
+    AuthorList authorList = getAuthorListByName(authorListName);
+    assertEquals(expected, authorList.latexFree().getAsLastFirstNames(abbreviate, oxford));
   }
 
   @Test
@@ -516,14 +346,23 @@ public class AuthorListTest {
 
   @ParameterizedTest
   @CsvSource(value = {
+      // Unicode one author name from LaTeX
       "ONE_AUTHOR_WITH_LATEX|false|al-Khwārizmī",
+      // Unicode two author names from LaTeX
       "TWO_AUTHORS_WITH_LATEX|false|al-Khwārizmī and Böhm",
+      // Unicode two author names from LaTeX using Oxford comma
       "TWO_AUTHORS_WITH_LATEX|true|al-Khwārizmī and Böhm",
+      // Unicode three authors from LaTeX
       "THREE_AUTHORS_WITH_LATEX|false|al-Khwārizmī, Böhm and Gödel",
+      // Unicode three authors from LaTeX using Oxford comma
       "THREE_AUTHORS_WITH_LATEX|true|al-Khwārizmī, Böhm, and Gödel",
+      // Unicode one institution name from LaTeX
       "ONE_INSTITUTION_WITH_LATEX|false|The Banū Mūsā brothers",
+      // Unicode two institution names from LaTeX
       "TWO_INSTITUTIONS_WITH_LATEX|false|The Banū Mūsā brothers and The Banū Mūsā brothers",
+      // Unicode mixed authors from LaTeX
       "MIXED_AUTHOR_AND_INSTITUTION_WITH_LATEX|false|The Banū Mūsā brothers and Böhm",
+      // One institution with parenthesis at start
       "ONE_INSTITUTION_WITH_STARTING_PARANTHESIS|false|Łukasz Michał"
   }, delimiter = '|')
   void getAsLastNamesLatexFree(String authorListName, boolean oxfordComma, String expected) {
