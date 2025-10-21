@@ -8,7 +8,7 @@ import org.jabref.gui.WorkspacePreferences;
 import org.jabref.logic.importer.ImportFormatPreferences;
 import org.jabref.logic.importer.ImporterPreferences;
 import org.jabref.model.study.Study;
-import org.jabref.model.study.StudyDatabase;
+import org.jabref.model.study.StudyCatalog;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ class ManageStudyDefinitionViewModelTest {
     }
 
     @Test
-    void emptyStudyConstructorFillsDatabasesCorrectly() {
+    void emptyStudyConstructorFillsCatalogsCorrectly() {
         ManageStudyDefinitionViewModel manageStudyDefinitionViewModel = new ManageStudyDefinitionViewModel(importFormatPreferences, importerPreferences, workspacePreferences, dialogService);
         assertEquals(List.of(
                 new StudyCatalogItem("ACM Portal", true),
@@ -46,6 +46,7 @@ class ManageStudyDefinitionViewModelTest {
                 new StudyCatalogItem("DBLP", true),
                 new StudyCatalogItem("DOAB", false),
                 new StudyCatalogItem("DOAJ", false),
+                new StudyCatalogItem("Europe/PMCID", false),
                 new StudyCatalogItem("GVK", false),
                 new StudyCatalogItem("IEEEXplore", true),
                 new StudyCatalogItem("INSPIRE", false),
@@ -53,6 +54,7 @@ class ManageStudyDefinitionViewModelTest {
                 new StudyCatalogItem("LOBID", false),
                 new StudyCatalogItem("MathSciNet", false),
                 new StudyCatalogItem("Medline/PubMed", false),
+                new StudyCatalogItem("OpenAlex", false),
                 new StudyCatalogItem("ResearchGate", false),
                 new StudyCatalogItem("SAO/NASA ADS", false),
                 new StudyCatalogItem("ScholarArchive", false),
@@ -63,7 +65,7 @@ class ManageStudyDefinitionViewModelTest {
     }
 
     @Test
-    void studyConstructorFillsDatabasesCorrectly(@TempDir Path tempDir) {
+    void studyConstructorFillsCatalogsCorrectly(@TempDir Path tempDir) {
         ManageStudyDefinitionViewModel manageStudyDefinitionViewModel = getManageStudyDefinitionViewModel(tempDir);
         assertEquals(List.of(
                 new StudyCatalogItem("ACM Portal", true),
@@ -75,6 +77,7 @@ class ManageStudyDefinitionViewModelTest {
                 new StudyCatalogItem("DBLP", false),
                 new StudyCatalogItem("DOAB", false),
                 new StudyCatalogItem("DOAJ", false),
+                new StudyCatalogItem("Europe/PMCID", false),
                 new StudyCatalogItem("GVK", false),
                 new StudyCatalogItem("IEEEXplore", false),
                 new StudyCatalogItem("INSPIRE", false),
@@ -82,6 +85,7 @@ class ManageStudyDefinitionViewModelTest {
                 new StudyCatalogItem("LOBID", false),
                 new StudyCatalogItem("MathSciNet", false),
                 new StudyCatalogItem("Medline/PubMed", false),
+                new StudyCatalogItem("OpenAlex", false),
                 new StudyCatalogItem("ResearchGate", false),
                 new StudyCatalogItem("SAO/NASA ADS", false),
                 new StudyCatalogItem("ScholarArchive", false),
@@ -92,14 +96,14 @@ class ManageStudyDefinitionViewModelTest {
     }
 
     private ManageStudyDefinitionViewModel getManageStudyDefinitionViewModel(Path tempDir) {
-        List<StudyDatabase> databases = List.of(
-                new StudyDatabase("ACM Portal", true));
+        List<StudyCatalog> catalogs = List.of(
+                new StudyCatalog("ACM Portal", true));
         Study study = new Study(
                 List.of("Name"),
                 "title",
                 List.of("Q1"),
                 List.of(),
-                databases
+                catalogs
         );
         return new ManageStudyDefinitionViewModel(
                 study,
