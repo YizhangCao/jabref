@@ -1,6 +1,5 @@
 package org.jabref.logic.bibtex;
 
-import io.github.adr.embedded.ADR;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
@@ -15,6 +14,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
 import org.jabref.logic.exporter.BibWriter;
 import org.jabref.logic.os.OS;
 import org.jabref.model.database.BibDatabaseMode;
@@ -27,6 +27,8 @@ import org.jabref.model.entry.field.InternalField;
 import org.jabref.model.entry.field.OrFields;
 import org.jabref.model.strings.StringUtil;
 import org.jabref.model.util.Range;
+
+import io.github.adr.linked.ADR;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

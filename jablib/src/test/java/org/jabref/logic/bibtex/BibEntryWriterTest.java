@@ -1,17 +1,12 @@
 package org.jabref.logic.bibtex;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-
-import io.github.adr.embedded.ADR;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+
 import org.jabref.logic.JabRefException;
 import org.jabref.logic.exporter.BibWriter;
 import org.jabref.logic.importer.ImportFormatPreferences;
@@ -28,12 +23,19 @@ import org.jabref.model.entry.field.UnknownField;
 import org.jabref.model.entry.types.EntryTypeFactory;
 import org.jabref.model.entry.types.StandardEntryType;
 import org.jabref.model.entry.types.UnknownEntryType;
+
+import io.github.adr.linked.ADR;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Answers;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 class BibEntryWriterTest {
 
@@ -125,7 +127,7 @@ class BibEntryWriterTest {
   @Test
   void writeEntryWithFile() throws IOException {
     BibEntry entry = new BibEntry(StandardEntryType.Article);
-    LinkedFile file = new LinkedFile("test", Path.of("/home/uers/test.pdf"), "PDF");
+    LinkedFile file = LinkedFile.of("test", Path.of("/home/uers/test.pdf"), "PDF");
     entry.addFile(file);
 
     bibEntryWriter.write(entry, bibWriter, BibDatabaseMode.BIBTEX);

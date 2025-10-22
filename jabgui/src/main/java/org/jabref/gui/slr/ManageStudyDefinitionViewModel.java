@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,7 +17,7 @@ import javafx.collections.ObservableList;
 import org.jabref.gui.DialogService;
 import org.jabref.gui.WorkspacePreferences;
 import org.jabref.logic.crawler.StudyRepository;
-import org.jabref.logic.crawler.StudyYamlParser;
+import org.jabref.logic.crawler.StudyYamlService;
 import org.jabref.logic.git.GitHandler;
 import org.jabref.logic.importer.ImportFormatPreferences;
 import org.jabref.logic.importer.ImporterPreferences;
@@ -31,10 +30,11 @@ import org.jabref.logic.importer.fetcher.IEEE;
 import org.jabref.logic.importer.fetcher.SpringerNatureWebFetcher;
 import org.jabref.logic.l10n.Localization;
 import org.jabref.model.study.Study;
-import org.jabref.model.study.StudyDatabase;
+import org.jabref.model.study.StudyCatalog;
 import org.jabref.model.study.StudyQuery;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,8 +69,8 @@ public class ManageStudyDefinitionViewModel {
      */
     public ManageStudyDefinitionViewModel(ImportFormatPreferences importFormatPreferences,
                                           ImporterPreferences importerPreferences,
-                                          WorkspacePreferences workspacePreferences,
-                                          DialogService dialogService) {
+                                          @NonNull WorkspacePreferences workspacePreferences,
+                                          @NonNull DialogService dialogService) {
         databases.addAll(WebFetchers.getSearchBasedFetchers(importFormatPreferences, importerPreferences)
                                     .stream()
                                     .map(SearchBasedFetcher::getName)
@@ -82,8 +82,8 @@ public class ManageStudyDefinitionViewModel {
                                         return new StudyCatalogItem(name, enabled);
                                     })
                                     .toList());
-        this.dialogService = Objects.requireNonNull(dialogService);
-        this.workspacePreferences = Objects.requireNonNull(workspacePreferences);
+        this.dialogService = dialogService;
+        this.workspacePreferences = workspacePreferences;
     }
 
     /**
@@ -92,18 +92,18 @@ public class ManageStudyDefinitionViewModel {
      * @param study          The study to initialize the UI from
      * @param studyDirectory The path where the study resides
      */
-    public ManageStudyDefinitionViewModel(Study study,
-                                          Path studyDirectory,
+    public ManageStudyDefinitionViewModel(@NonNull Study study,
+                                          @NonNull Path studyDirectory,
                                           ImportFormatPreferences importFormatPreferences,
                                           ImporterPreferences importerPreferences,
-                                          WorkspacePreferences workspacePreferences,
-                                          DialogService dialogService) {
+                                          @NonNull WorkspacePreferences workspacePreferences,
+                                          @NonNull DialogService dialogService) {
         // copy the content of the study object into the UI fields
-        authors.addAll(Objects.requireNonNull(study).getAuthors());
+        authors.addAll(study.getAuthors());
         title.setValue(study.getTitle());
         researchQuestions.addAll(study.getResearchQuestions());
         queries.addAll(study.getQueries().stream().map(StudyQuery::getQuery).toList());
-        List<StudyDatabase> studyDatabases = study.getDatabases();
+        List<StudyCatalog> studyCatalogs = study.getCatalogs();
         databases.addAll(WebFetchers.getSearchBasedFetchers(importFormatPreferences, importerPreferences)
                                     .stream()
                                     .map(SearchBasedFetcher::getName)
@@ -111,14 +111,14 @@ public class ManageStudyDefinitionViewModel {
                                     // The fetcher summarizing ALL fetchers can be emulated by selecting ALL fetchers (which happens rarely when doing an SLR)
                                     .filter(name -> !CompositeSearchBasedFetcher.FETCHER_NAME.equals(name))
                                     .map(name -> {
-                                        boolean enabled = studyDatabases.contains(new StudyDatabase(name, true));
+                                        boolean enabled = studyCatalogs.contains(new StudyCatalog(name, true));
                                         return new StudyCatalogItem(name, enabled);
                                     })
                                     .toList());
 
-        this.directory.set(Objects.requireNonNull(studyDirectory).toString());
-        this.dialogService = Objects.requireNonNull(dialogService);
-        this.workspacePreferences = Objects.requireNonNull(workspacePreferences);
+        this.directory.set(studyDirectory.toString());
+        this.workspacePreferences = workspacePreferences;
+        this.dialogService = dialogService;
     }
 
     public StringProperty getTitle() {
@@ -172,7 +172,7 @@ public class ManageStudyDefinitionViewModel {
                 title.getValueSafe(),
                 researchQuestions,
                 queries.stream().map(StudyQuery::new).collect(Collectors.toList()),
-                databases.stream().map(studyDatabaseItem -> new StudyDatabase(studyDatabaseItem.getName(), studyDatabaseItem.isEnabled())).filter(StudyDatabase::isEnabled).collect(Collectors.toList()));
+                databases.stream().map(studyDatabaseItem -> new StudyCatalog(studyDatabaseItem.getName(), studyDatabaseItem.isEnabled())).filter(StudyCatalog::isEnabled).collect(Collectors.toList()));
         Path studyDirectory;
         final String studyDirectoryAsString = directory.getValueSafe();
         try {
@@ -185,7 +185,7 @@ public class ManageStudyDefinitionViewModel {
         }
         Path studyDefinitionFile = studyDirectory.resolve(StudyRepository.STUDY_DEFINITION_FILE_NAME);
         try {
-            new StudyYamlParser().writeStudyYamlFile(study, studyDefinitionFile);
+            new StudyYamlService().writeStudyYamlFile(study, studyDefinitionFile);
         } catch (IOException e) {
             LOGGER.error("Could not write study file {}", studyDefinitionFile, e);
             dialogService.notify(Localization.lang("Please enter a valid file path.") +

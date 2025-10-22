@@ -7,7 +7,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +34,7 @@ import org.jabref.model.strings.StringUtil;
 import kong.unirest.core.json.JSONArray;
 import kong.unirest.core.json.JSONObject;
 import org.apache.hc.core5.net.URIBuilder;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,9 +65,10 @@ public class IEEE implements FulltextFetcher, PagedSearchBasedParserFetcher, Cus
 
     private IEEEQueryTransformer transformer;
 
-    public IEEE(ImportFormatPreferences importFormatPreferences, ImporterPreferences importerPreferences) {
-        this.importFormatPreferences = Objects.requireNonNull(importFormatPreferences);
-        this.importerPreferences = Objects.requireNonNull(importerPreferences);
+    public IEEE(@NonNull ImportFormatPreferences importFormatPreferences,
+                @NonNull ImporterPreferences importerPreferences) {
+        this.importFormatPreferences = importFormatPreferences;
+        this.importerPreferences = importerPreferences;
     }
 
     /**
@@ -123,7 +124,7 @@ public class IEEE implements FulltextFetcher, PagedSearchBasedParserFetcher, Cus
         entry.setField(StandardField.ISSUE, jsonEntry.optString("issue"));
         String pdfUrl = jsonEntry.optString("pdf_url");
         if (!StringUtil.isBlank(pdfUrl)) {
-            entry.addFile(new LinkedFile("", pdfUrl, "PDF"));
+            entry.addFile(LinkedFile.of("", pdfUrl, "PDF"));
         }
         entry.setField(StandardField.JOURNALTITLE, jsonEntry.optString("publication_title"));
         entry.setField(StandardField.DATE, jsonEntry.optString("publication_date"));
@@ -137,9 +138,7 @@ public class IEEE implements FulltextFetcher, PagedSearchBasedParserFetcher, Cus
     }
 
     @Override
-    public Optional<URL> findFullText(BibEntry entry) throws FetcherException {
-        Objects.requireNonNull(entry);
-
+    public Optional<URL> findFullText(@NonNull BibEntry entry) throws FetcherException {
         String stampString = "";
 
         // Try URL first -- will primarily work for entries from the old IEEE search

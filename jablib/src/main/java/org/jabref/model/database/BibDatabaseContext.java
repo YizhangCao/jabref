@@ -38,12 +38,12 @@ import org.slf4j.LoggerFactory;
 /**
  * Represents everything related to a BIB file.
  *
- * <p> The entries are stored in BibDatabase, the other data in MetaData
- * and the options relevant for this file in Defaults.
- * </p>
- * <p>
- * To get an instance for a .bib file, use {@link org.jabref.logic.importer.fileformat.BibtexParser}.
- * </p>
+ * <p>The entries are stored in BibDatabase, the other data in MetaData
+ * and the options relevant for this file in Defaults.</p>
+ *
+ * <p>To create instances with custom configurations, use {@link Builder}.</p>
+ * <p>To get an instance for a .bib file, use
+ * {@link org.jabref.logic.importer.fileformat.BibtexParser}.</p>
  */
 @AllowedToUseLogic("because it needs access to shared database features")
 public class BibDatabaseContext {
@@ -82,11 +82,12 @@ public class BibDatabaseContext {
         this.location = DatabaseLocation.LOCAL;
     }
 
+    @Deprecated
     public BibDatabaseContext(BibDatabase database, MetaData metaData, Path path) {
         this(database, metaData, path, DatabaseLocation.LOCAL);
     }
 
-    public BibDatabaseContext(BibDatabase database, MetaData metaData, Path path, DatabaseLocation location) {
+    private BibDatabaseContext(BibDatabase database, MetaData metaData, Path path, DatabaseLocation location) {
         this(database, metaData);
         Objects.requireNonNull(location);
         this.path = path;
@@ -350,5 +351,74 @@ public class BibDatabaseContext {
      */
     public String getUid() {
         return uid;
+    }
+
+    /**
+     * Builder for creating BibDatabaseContext instances.
+     */
+    public static class Builder {
+        private BibDatabase database = new BibDatabase();
+        private MetaData metaData = new MetaData();
+        private Path path = null;
+        private DatabaseLocation location = DatabaseLocation.LOCAL;
+
+        /**
+         * Creates a builder with default values.
+         */
+        public Builder() {
+        }
+
+        /**
+         * Sets the database.
+         *
+         * @param database the database to use
+         * @return this builder
+         */
+        public Builder withDatabase(BibDatabase database) {
+            this.database = Objects.requireNonNull(database);
+            return this;
+        }
+
+        /**
+         * Sets the metadata.
+         *
+         * @param metaData the metadata to use
+         * @return this builder
+         */
+        public Builder withMetaData(MetaData metaData) {
+            this.metaData = Objects.requireNonNull(metaData);
+            return this;
+        }
+
+        /**
+         * Sets the database path.
+         *
+         * @param path the path to the database file
+         * @return this builder
+         */
+        public Builder withDatabasePath(Path path) {
+            this.path = path;
+            return this;
+        }
+
+        /**
+         * Sets the database location.
+         *
+         * @param location the database location
+         * @return this builder
+         */
+        public Builder withLocation(DatabaseLocation location) {
+            this.location = Objects.requireNonNull(location);
+            return this;
+        }
+
+        /**
+         * Builds the BibDatabaseContext.
+         *
+         * @return the created context
+         */
+        public BibDatabaseContext build() {
+            return new BibDatabaseContext(database, metaData, path, location);
+        }
     }
 }
