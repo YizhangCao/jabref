@@ -1,14 +1,17 @@
 package org.jabref.model.groups;
 
-import io.github.adr.embedded.ADR;
+//import io.github.adr.embedded.ADR;
+
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
 import org.jabref.model.entry.BibEntry;
 import org.jabref.model.search.SearchFlags;
 import org.jabref.model.search.query.SearchQuery;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +23,7 @@ public class SearchGroup extends AbstractGroup {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SearchGroup.class);
 
-  @ADR(38)
+  //@ADR(38)
   private final Set<String> matchedEntries = new HashSet<>();
 
   private SearchQuery searchQuery;

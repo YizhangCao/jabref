@@ -30,7 +30,15 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Represents the link to an external file (e.g. associated PDF file).
- * This class is {@link Serializable} which is needed for drag and drop in gui
+ *
+ * <p>This class is {@link Serializable} which is needed for drag and drop in GUI.</p>
+ *
+ * <p>Use the static factory methods to create instances:</p>
+ * <ul>
+ *   <li>{@link #of(Path)} - creates a file with empty description and type</li>
+ *   <li>{@link #of(String, Path, String)} - creates a file with full details</li>
+ *   <li>{@link #fromUrl(URL, String)} - creates a file from a URL</li>
+ * </ul>
  */
 @AllowedToUseLogic("Uses FileUtil from logic")
 @NullMarked
@@ -49,50 +57,163 @@ public class LinkedFile implements Serializable {
     private transient StringProperty fileType = new SimpleStringProperty();
     private transient StringProperty sourceURL = new SimpleStringProperty();
 
-    public LinkedFile(String description, Path link, String fileType) {
-        this(description, link.toString(), fileType);
+    // ========================================
+    // STATIC FACTORY METHODS
+    // ========================================
+
+    /**
+     * Creates a LinkedFile from a path with empty description and file type.
+     *
+     * @param link the path to the file
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile of(Path link) {
+        return new LinkedFile("", link, "");
     }
 
-    public LinkedFile(String description, Path link, String fileType, String sourceUrl) {
-        this(description, link.toString(), fileType, sourceUrl);
+    /**
+     * Creates a LinkedFile with description, path, and file type.
+     *
+     * @param description the file description
+     * @param link the path to the file
+     * @param fileType the file type as string
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile of(String description, Path link, String fileType) {
+        return new LinkedFile(description, link, fileType);
     }
 
-    public LinkedFile(String description, String link, FileType fileType) {
+    /**
+     * Creates a LinkedFile with description, path, file type, and source URL.
+     *
+     * @param description the file description
+     * @param link the path to the file
+     * @param fileType the file type as string
+     * @param sourceUrl the source URL
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile of(String description, Path link, String fileType, String sourceUrl) {
+        return new LinkedFile(description, link, fileType, sourceUrl);
+    }
+
+    /**
+     * Creates a LinkedFile with description, link string, and FileType object.
+     *
+     * @param description the file description
+     * @param link the link as string
+     * @param fileType the FileType object
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile of(String description, String link, FileType fileType) {
+        return new LinkedFile(description, link, fileType);
+    }
+
+    /**
+     * Creates a LinkedFile with description, link string, and file type string.
+     *
+     * @param description the file description
+     * @param link the link as string
+     * @param fileType the file type as string
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile of(String description, String link, String fileType) {
+        return new LinkedFile(description, link, fileType);
+    }
+
+    /**
+     * Creates a LinkedFile with description, link string, file type, and source URL.
+     *
+     * @param description the file description
+     * @param link the link as string
+     * @param fileType the file type as string
+     * @param sourceUrl the source URL
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile of(String description, String link, String fileType, String sourceUrl) {
+        return new LinkedFile(description, link, fileType, sourceUrl);
+    }
+
+    /**
+     * Creates a LinkedFile from a URL with empty description.
+     *
+     * @param link the URL
+     * @param fileType the file type as string
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile fromUrl(URL link, String fileType) {
+        return new LinkedFile("", link, fileType);
+    }
+
+    /**
+     * Creates a LinkedFile from a URL with description.
+     *
+     * @param description the file description
+     * @param link the URL
+     * @param fileType the file type as string
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile fromUrl(String description, URL link, String fileType) {
+        return new LinkedFile(description, link, fileType);
+    }
+
+    /**
+     * Creates a LinkedFile from a URL with description and source URL.
+     *
+     * @param description the file description
+     * @param link the URL
+     * @param fileType the file type as string
+     * @param sourceUrl the source URL
+     * @return a new LinkedFile instance
+     */
+    public static LinkedFile fromUrl(String description, URL link, String fileType, String sourceUrl) {
+        return new LinkedFile(description, Objects.requireNonNull(link).toString(), Objects.requireNonNull(fileType), Objects.requireNonNull(sourceUrl));
+    }
+
+    // ========================================
+    // PRIVATE CONSTRUCTORS
+    // ========================================
+
+    private LinkedFile(String description, Path link, String fileType) {
+        this(Objects.requireNonNull(description), Objects.requireNonNull(link).toString(), Objects.requireNonNull(fileType));
+    }
+
+    private LinkedFile(String description, Path link, String fileType, String sourceUrl) {
+        this(Objects.requireNonNull(description), Objects.requireNonNull(link).toString(), Objects.requireNonNull(fileType), Objects.requireNonNull(sourceUrl));
+    }
+
+    private LinkedFile(String description, String link, FileType fileType) {
         this(description, link, fileType.getName());
     }
 
     /**
      * Constructor can also be used for non-valid paths. We need to parse them, because the GUI needs to render it.
      */
-    public LinkedFile(String description, String link, String fileType, String sourceUrl) {
-        this.description.setValue(description);
+    private LinkedFile(String description, String link, String fileType, String sourceUrl) {
+        this.description.setValue(Objects.requireNonNull(description));
         setLink(link);
-        this.fileType.setValue(fileType);
+        this.fileType.setValue(Objects.requireNonNull(fileType));
         this.sourceURL.setValue(sourceUrl);
     }
 
-    public LinkedFile(String description, String link, String fileType) {
+    private LinkedFile(String description, String link, String fileType) {
         this(description, link, fileType, "");
     }
 
-    public LinkedFile(URL link, String fileType) {
-        this("", link.toString(), fileType);
+    private LinkedFile(URL link, String fileType) {
+        this("", Objects.requireNonNull(link).toString(), Objects.requireNonNull(fileType));
     }
 
-    public LinkedFile(String description, URL link, String fileType) {
-        this(description, link.toString(), fileType);
+    private LinkedFile(String description, URL link, String fileType) {
+        this(description, Objects.requireNonNull(link).toString(), Objects.requireNonNull(fileType));
     }
 
-    public LinkedFile(String description, URL link, String fileType, String sourceUrl) {
-        this(description, link.toString(), fileType, sourceUrl);
+    private LinkedFile(String description, URL link, String fileType, String sourceUrl) {
+        this(description, Objects.requireNonNull(link).toString(), Objects.requireNonNull(fileType), Objects.requireNonNull(sourceUrl));
     }
 
-    /**
-     * Constructs a new LinkedFile with an empty file type and an empty description
-     */
-    public LinkedFile(Path link) {
-        this("", link, "");
-    }
+    // ========================================
+    // PUBLIC METHODS
+    // ========================================
 
     public StringProperty descriptionProperty() {
         return description;
